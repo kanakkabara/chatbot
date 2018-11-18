@@ -2,10 +2,11 @@ import pickle
 import numpy as np
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
-import json
 import random
 
-from network import get_model
+from chat_functions import account_balance_handler
+from intent import get_intents
+from training import get_model
 
 data = pickle.load(open("./model/training_data", "rb"))
 words = data['words']
@@ -57,35 +58,38 @@ def classify(sentence):
     for r in results:
         return_list.append((classes[r[0]], r[1]))
     # return tuple of intent and probability
-    print(return_list)
     return return_list
 
 
-def response(sentence, userID='123', show_details=False):
-    with open('intents.json') as json_data:
-        intents = json.load(json_data)
+def response(sentence, user_id='123', show_details=False):
+    intents = get_intents()
 
     results = classify(sentence)
     # if we have a classification then find the matching intent tag
     if results:
         # loop as long as there are matches to process
         while results:
-            for i in intents['intents']:
+            for i in intents:
                 # find a tag matching the first result
                 if i['tag'] == results[0][0]:
+                    responses = i['responses']
+                    context_info = None
+                    if i['tag'] == "account_balance" or i['tag'] == 'account_balance_clarification':
+                        responses, context_info = account_balance_handler(sentence)
+
                     # set context for this intent if necessary
                     if 'context_set' in i:
+                        context[user_id] = i['context_set'] if context_info is None else context_info
                         if show_details:
-                            print('context:', i['context_set'])
-                        context[userID] = i['context_set']
+                            print('context:', context[user_id])
 
                     # check if this intent is contextual and applies to this user's conversation
                     if not 'context_filter' in i or (
-                            userID in context and 'context_filter' in i and i['context_filter'] == context[userID]):
+                            user_id in context and 'context_filter' in i and i['context_filter'] == context[user_id]):
                         if show_details:
                             print('tag:', i['tag'])
                         # a random response from the intent
-                        return random.choice(i['responses'])
+                        return random.choice(responses)
 
             results.pop(0)
 
