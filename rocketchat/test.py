@@ -1,4 +1,4 @@
-from api_wrapper import RocketChat
+from rocketchat.api_wrapper import RocketChat
 from pprint import pprint
 
 rocket = RocketChat('roncool', 'password', server_url='http://simpleserver.ga:3000')

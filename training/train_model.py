@@ -2,13 +2,10 @@ import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import numpy as np
 import random
-import json
 import pickle
 
-from network import get_model
-
-with open('intents.json') as json_data:
-    intents = json.load(json_data)
+from intent import get_intents
+from training.network import get_model
 
 # Load corpus
 nltk.download('punkt')
@@ -17,8 +14,10 @@ words = []
 classes = []
 documents = []
 ignore_words = ['?']
-# loop through each sentence in our intents patterns
-for intent in intents['intents']:
+# loop through each sentence in our chat_functions patterns
+
+intents = get_intents()
+for intent in intents:
     for pattern in intent['patterns']:
         # tokenize each word in the sentence
         w = nltk.word_tokenize(pattern)
@@ -78,6 +77,6 @@ train_y = list(training[:, 1])
 model = get_model(train_x, train_y)
 # Start training (apply gradient descent algorithm)
 model.fit(train_x, train_y, n_epoch=1000, batch_size=8, show_metric=True)
-model.save('./model/model.tflearn')
+model.save('../model/model.tflearn')
 
-pickle.dump({'words': words, 'classes': classes, 'train_x': train_x, 'train_y': train_y}, open("./model/training_data", "wb"))
+pickle.dump({'words': words, 'classes': classes, 'train_x': train_x, 'train_y': train_y}, open("../model/training_data", "wb"))

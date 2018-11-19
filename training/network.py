@@ -12,5 +12,5 @@ def get_net(train_x, train_y):
 
 
 def get_model(train_x, train_y):
-    model = tflearn.DNN(get_net(train_x, train_y), tensorboard_dir='./model/tflearn_logs')
+    model = tflearn.DNN(get_net(train_x, train_y), tensorboard_dir='../model/tflearn_logs')
     return model

@@ -1,0 +1,5 @@
+tensorflow
+tflearn
+numpy
+nltk
+requests
