@@ -1,6 +1,6 @@
-What is my account balance for account [accountQueryNumber:number](1234)
+What is my account balance for account [accountQueryNumber:accountNumber](1234)
 give me some my account balance in [accountQueryCurrency:currency](JPY) please
-please give me account balance in [accountQueryCurrency:currency](JPY) for account [accountQueryNumber:number](1234)
-please give me account balance in [accountQueryCurrency:currency](RMB) for account [accountQueryNumber:number](1234)
+please give me account balance in [accountQueryCurrency:currency](JPY) for account [accountQueryNumber:accountNumber](1234)
+please give me account balance in [accountQueryCurrency:currency](RMB) for account [accountQueryNumber:accountNumber](1234)
 What is my account balance in [accountQueryCurrency:currency](HKD)
 Tell me the account number in [accountQueryCurrency:currency](HKD)

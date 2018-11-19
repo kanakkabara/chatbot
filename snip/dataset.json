@@ -1,12 +1,12 @@
 {
   "entities": {
-    "currency": {
+    "accountNumber": {
       "automatically_extensible": true,
       "data": [],
       "parser_threshold": 1.0,
       "use_synonyms": true
     },
-    "number": {
+    "currency": {
       "automatically_extensible": true,
       "data": [],
       "parser_threshold": 1.0,
@@ -22,7 +22,7 @@
               "text": "What is my account balance for account "
             },
             {
-              "entity": "number",
+              "entity": "accountNumber",
               "slot_name": "accountQueryNumber",
               "text": "1234"
             }
@@ -57,7 +57,7 @@
               "text": " for account "
             },
             {
-              "entity": "number",
+              "entity": "accountNumber",
               "slot_name": "accountQueryNumber",
               "text": "1234"
             }
@@ -77,7 +77,7 @@
               "text": " for account "
             },
             {
-              "entity": "number",
+              "entity": "accountNumber",
               "slot_name": "accountQueryNumber",
               "text": "1234"
             }
