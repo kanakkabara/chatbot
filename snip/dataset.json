@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "currency": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
+    "number": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    }
+  },
+  "intents": {
+    "data": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "text": "What is my account balance for account "
+            },
+            {
+              "entity": "number",
+              "slot_name": "accountQueryNumber",
+              "text": "1234"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "give me some my account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "JPY"
+            },
+            {
+              "text": " please"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "please give me account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "JPY"
+            },
+            {
+              "text": " for account "
+            },
+            {
+              "entity": "number",
+              "slot_name": "accountQueryNumber",
+              "text": "1234"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "please give me account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "RMB"
+            },
+            {
+              "text": " for account "
+            },
+            {
+              "entity": "number",
+              "slot_name": "accountQueryNumber",
+              "text": "1234"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "What is my account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "HKD"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Tell me the account number in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "HKD"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "language": "en"
+}
