@@ -1,11 +1,13 @@
 import pickle
+from collections import defaultdict
+
 import numpy as np
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import random
 
 from chat_functions import account_balance_handler
-from intent import get_intents
+from intent import get_intents, get_intent
 from training import get_model
 
 data = pickle.load(open("./model/training_data", "rb"))
@@ -18,8 +20,7 @@ train_y = data['train_y']
 model = get_model(train_x, train_y)
 model.load('./model/model.tflearn')
 
-context = {}
-ERROR_THRESHOLD = 0.25
+ERROR_THRESHOLD = 0.5
 
 
 def clean_up_sentence(sentence):
@@ -58,13 +59,37 @@ def classify(sentence):
     for r in results:
         return_list.append((classes[r[0]], r[1]))
     # return tuple of intent and probability
+    print(return_list)
     return return_list
+
+
+tag_under_processing = defaultdict(dict)
+state = defaultdict(dict)
+context = {}
 
 
 def response(sentence, user_id='123', show_details=False):
     intents = get_intents()
 
-    results = classify(sentence)
+    if tag_under_processing[user_id]:
+        intent = get_intent(tag_under_processing[user_id])
+        requirements = intent['requirements']
+        for requirement in requirements:
+            if not state[user_id][requirement]:
+                # TODO check if current sentence fulfils this req
+                # if not ask clarification
+                # if yes populate the state
+                state[user_id][requirement] = sentence
+                break
+
+        for requirement in requirements:
+            if not state[user_id][requirement]:
+                return random.choice(intent['clarifications'][requirement])
+        results = [[tag_under_processing[user_id]]]
+        # all reqs are satisfied now, use tag under processing and proceed normally
+    else:
+        results = classify(sentence)
+
     # if we have a classification then find the matching intent tag
     if results:
         # loop as long as there are matches to process
@@ -74,8 +99,14 @@ def response(sentence, user_id='123', show_details=False):
                 if i['tag'] == results[0][0]:
                     responses = i['responses']
                     context_info = None
-                    if i['tag'] == "account_balance" or i['tag'] == 'account_balance_clarification':
-                        responses, context_info = account_balance_handler(sentence)
+                    if i['tag'] == "account_balance":
+                        responses, completed, user_state = account_balance_handler(sentence, state[user_id])
+                        if not completed:
+                            state[user_id] = user_state
+                            tag_under_processing[user_id] = i['tag']
+                        else:
+                            state[user_id] = {}
+                            tag_under_processing[user_id] = None
 
                     # set context for this intent if necessary
                     if 'context_set' in i:
@@ -92,6 +123,8 @@ def response(sentence, user_id='123', show_details=False):
                         return random.choice(responses)
 
             results.pop(0)
+    else:
+        return "I'm sorry, I don't understand what you mean.."
 
 
 if __name__ == "__main__":

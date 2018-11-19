@@ -12,28 +12,14 @@
     },
     {
       "tag": "account_balance",
-      "patterns": ["What is my account balance?", "Am I rich?", "How much money do I have?"],
-      "clarifications": ["Which account's balance would you like to know?"],
-      "responses": {
-        "success": ["Account %s currently has HKD%d."],
-        "failure": ["Incorrect account number, please specify one of your accounts."]
+      "patterns": ["What is my account balance", "Am I rich", "How much money do I have"],
+      "requirements": ["account"],
+      "clarifications": {
+        "account": ["Which account would you like to know details for?", "I'm sorry, which account are you referring to?"],
+        "currency": ["And which currency would you like the details to be in?"]
       },
-      "context_set": {
-        "success": {"context": "account_balance", "account": "%s"},
-        "clarification": {"context": "account_balance_clarification"}
-      }
-    },
-    {
-      "tag": "empty",
-      "patterns": [""],
-      "responses": {
-        "success": ["Account %s currently has HKD%d."],
-        "failure": ["Incorrect account number, please specify one of your accounts."]
-      },
-      "context_filter": "account_balance_clarification",
-      "context_set": {
-        "success": {"context": "account_balance", "account": "%s"}
-      }
+      "responses": ["Account %s currently has HKD %d."],
+      "context_set": {"context": "account_balance", "account": "%s"}
     }
   ]
 }
