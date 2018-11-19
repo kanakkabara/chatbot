@@ -234,7 +234,6 @@ class FreetalkLike(client.OverrideClient):
         self.api.send_msg(self.name_map[room], msg)
 
     def command_parser(self, line):
-        # TODO: do something less crappy
         if not line.strip():
             return
 
@@ -249,9 +248,11 @@ class FreetalkLike(client.OverrideClient):
         }
         com, *remainder = line.split(' ', maxsplit=1)
         if com in handlers:
-            if remainder:
+            if com=="send":
                 room, *message = remainder[0].split(' ', maxsplit=1)
                 self.api.send_msg(self.name_map[room], message[0])
+            elfif remainder:
+                handlers[com](remainder[0])
             else:
                 handlers[com]()
         else:
