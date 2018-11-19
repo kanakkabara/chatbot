@@ -289,7 +289,6 @@ class FreetalkLike(client.OverrideClient):
         return self.room_build(msg['room_id'], msg['creation_time'], content)
 
     async def on_room_message(self, msg):
-        print(msg)
         toks = super().on_room_message(msg)
         print_cli(toks)
 

@@ -3,3 +3,4 @@ tflearn
 numpy
 nltk
 requests
+prompt-toolkit==1.0.15
