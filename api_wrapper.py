@@ -1,6 +1,7 @@
  # -*-coding:utf-8-*-
 import logging
-
+import asyncio
+import websockets
 import requests
 
 class RocketException(Exception):
