@@ -1,4 +1,5 @@
 import json
+import random
 
 from chat_functions.handler import Handler
 from intent.intent_manager import get_clarification_for_field
@@ -14,7 +15,7 @@ class MeetingScheduler(Handler):
         super().__init__(_dict)
 
     def schedule_meeting(self):
-        return ['your meeting has been confirmed', 'I have set up the appointment']
+        return ['Your meeting has been confirmed.', 'I have set up the appointment.']
 
     def handle(self, sentence):
         snip = SnipHandler.get_instance()
@@ -23,11 +24,13 @@ class MeetingScheduler(Handler):
             self.fields[self.state] = sentence
             self.state = None
         else:
-            fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
-            for field, value in fields:
-                if field in self.required_fields:
-                    self.fields[field] = value
-
+            if parsed['slots'] is not None:
+                fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
+                for field, value in fields:
+                    if field in self.required_fields:
+                        self.fields[field] = value
+            else:
+                return [random.choice(["I'm sorry, I don't understand. Could you rephrase that?"])], None
         if self.has_all_required_fields():
             return self.schedule_meeting(), None
         else:

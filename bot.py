@@ -74,7 +74,6 @@ def get_query_obj(tag):
         AssetAllocation.tag: AssetAllocation,
         Advisory.tag: Advisory,
         MeetingScheduler.tag: MeetingScheduler
-
     }
     return None if tag not in objs else objs[tag]()
 

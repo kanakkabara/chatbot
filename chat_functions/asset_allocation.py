@@ -1,3 +1,4 @@
+import random
 from chat_functions.handler import Handler
 from intent.intent_manager import *
 from snip.snip_handler import SnipHandler
@@ -12,6 +13,7 @@ class AssetAllocation(Handler):
     tag = 'asset_allocation'
 
     def __init__(self, _dict=None):
+        super().__init__(_dict)
         self.fields = dict() if _dict is None else _dict
         self.state = None
 

@@ -1,3 +1,5 @@
+import random
+
 from intent.intent_manager import *
 from chat_functions.handler import Handler
 from snip.snip_handler import SnipHandler
@@ -11,6 +13,7 @@ class AccountBalance(Handler):
     tag = 'account_balance'
 
     def __init__(self, _dict=None):
+        super().__init__(_dict)
         self.fields = dict() if _dict is None else _dict
         self.state = None
 
@@ -36,11 +39,13 @@ class AccountBalance(Handler):
             self.fields[self.state] = sentence
             self.state = None
         else:
-            fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
-            for field, value in fields:
-                if field in required_fields:
-                    self.fields[field] = value
-
+            if parsed['slots'] is not None:
+                fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
+                for field, value in fields:
+                    if field in required_fields:
+                        self.fields[field] = value
+            else:
+                return [random.choice(["I'm sorry, I don't understand. Could you rephrase that?"])], None
         if self.has_all_required_fields():
             return self.get_account_balance(), None
         else:

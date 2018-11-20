@@ -42,13 +42,8 @@
       "parser_threshold": 1.0,
       "use_synonyms": true
     },
+    "snips/datetime": {},
     "stockName": {
-      "automatically_extensible": true,
-      "data": [],
-      "parser_threshold": 1.0,
-      "use_synonyms": true
-    },
-    "time": {
       "automatically_extensible": true,
       "data": [],
       "parser_threshold": 1.0,
@@ -416,7 +411,7 @@
               "text": "Can we talk over on "
             },
             {
-              "entity": "time",
+              "entity": "snips/datetime",
               "slot_name": "schedule",
               "text": "Sunday evening"
             },
@@ -436,7 +431,7 @@
               "text": "Let's talk about it at "
             },
             {
-              "entity": "time",
+              "entity": "snips/datetime",
               "slot_name": "schedule",
               "text": "6:00"
             },
@@ -456,7 +451,7 @@
               "text": "Can we schedule a meeting "
             },
             {
-              "entity": "time",
+              "entity": "snips/datetime",
               "slot_name": "schedule",
               "text": "tomorrow"
             },
@@ -495,24 +490,9 @@
               "text": " at around "
             },
             {
-              "entity": "time",
+              "entity": "snips/datetime",
               "slot_name": "schedule",
               "text": "5 o'clock"
-            }
-          ]
-        },
-        {
-          "data": [
-            {
-              "text": "Please schedule a meeting "
-            },
-            {
-              "entity": "time",
-              "slot_name": "schedule",
-              "text": "some time next week"
-            },
-            {
-              "text": "?"
             }
           ]
         },
@@ -522,7 +502,7 @@
               "text": "Can you set up an appointment on "
             },
             {
-              "entity": "time",
+              "entity": "snips/datetime",
               "slot_name": "schedule",
               "text": "Second Sunday of this month"
             },
@@ -542,12 +522,57 @@
               "text": "Can you schedule something at "
             },
             {
-              "entity": "time",
+              "entity": "snips/datetime",
               "slot_name": "schedule",
               "text": "9:00"
             },
             {
               "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "I would like to talk to "
+            },
+            {
+              "entity": "attendee",
+              "slot_name": "schedule",
+              "text": "andrew"
+            },
+            {
+              "text": " about it at "
+            },
+            {
+              "entity": "snips/datetime",
+              "slot_name": "schedule",
+              "text": "4:00"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "I would like to have an appointment with "
+            },
+            {
+              "entity": "attendee",
+              "slot_name": "schedule",
+              "text": "Anakin"
+            },
+            {
+              "text": " at "
+            },
+            {
+              "entity": "location",
+              "slot_name": "schedule",
+              "text": "Room87L"
+            },
+            {
+              "entity": "snips/datetime",
+              "slot_name": "schedule",
+              "text": "tomorrow"
             }
           ]
         }
