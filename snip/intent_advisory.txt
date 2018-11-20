@@ -1,9 +1,0 @@
-What is your view on [stock_name:stock_name](AAPL)?
-What is your view on [stock_name:stock_name](Apple)?
-What do you think about making an investment in [stock_name:stock_name](TSLA)?
-Should I consider investing in [stock_name:stock_name](GOOGL)?
-Should I invest in [stock_name:stock_name](MSFT)?
-Is it a good idea to invest in [stock_name:stock_name](Microsoft)?
-[stock_name:stock_name](Amazon) is performing well right now, should I invest in it?
-My friend suggested buying some [stock_name:stock_name](Apple) stock, should I do it?
-I am thinking of getting some [stock_name:stock_name](Apple) stock, what do you think?

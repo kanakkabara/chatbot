@@ -5,6 +5,7 @@ from nltk.stem.lancaster import LancasterStemmer
 import random
 
 from chat_functions import AccountBalance
+from chat_functions.advisory import Advisory
 from chat_functions.asset_allocation import AssetAllocation
 from intent import get_intents
 from training import get_model
@@ -59,23 +60,24 @@ def classify(sentence):
     for r in results:
         return_list.append((classes[r[0]], r[1]))
     # return tuple of intent and probability
+    print(return_list)
     return return_list
 
 
 def get_query_obj(tag):
-    if tag == 'account_balance':
-        return AccountBalance()
-    elif tag == 'asset_allocation':
-        return AssetAllocation()
-    else:
-        return None
+    objs = {
+        'account_balance': AccountBalance,
+        'asset_allocation': AssetAllocation,
+        Advisory.tag: Advisory
+    }
+    return None if tag not in objs else objs[tag]()
 
 
 def response(sentence, obj, user_id='123', show_details=False):
     intents = get_intents()
 
     results = [[obj.tag]] if obj is not None else classify(sentence)
-    # if we have a classificati12on then find the matching intent tag
+    # if we have a classification then find the matching intent tag
     if results:
         # loop as long as there are matches to process
         while results:
