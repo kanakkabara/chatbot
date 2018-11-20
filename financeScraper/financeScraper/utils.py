@@ -1,4 +1,4 @@
-from financeScraper.items import FinancescraperItem
+from financeScraper.financeScraper.items import FinancescraperItem
 from enum import Enum
 import re
 

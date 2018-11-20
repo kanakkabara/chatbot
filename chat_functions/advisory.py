@@ -2,6 +2,7 @@ import random
 
 from intent.intent_manager import *
 from snip.snip_handler import SnipHandler
+from financeAnalysis.finance_data_analysis import do_sentiment_analysis
 
 is_noun = lambda pos: pos[:2] == 'NN'
 
@@ -27,11 +28,11 @@ class Advisory:
         return list((set(required_fields)).difference(set(self.fields.keys())))
 
     def get_advisory(self):
-        value = get_advise(self.fields['stock_name'])
+        value = do_sentiment_analysis('APPL')
         if value < 0:
-            return [f'I would not recommend you to invest in this stock. Upon further reading, I found that ']
+            return [f'I would not recommend you to invest in this stock.']
         else:
-            return [f'I would advice you to invest further in this stock. Upon further reading, I found that ']
+            return [f'I would advice you to invest further in this stock.']
 
     def handle(self, sentence):
         snip = SnipHandler.get_instance()

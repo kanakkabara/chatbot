@@ -1,13 +1,15 @@
 import pandas as pd
 import json
+import os
 import re
 from sklearn import preprocessing
 import nltk
+from financeScraper.crawlers import crawl
 
 
 # "financeScraper/data/reu_AAPL-Nov-20-2018.jl"
 
-def readJson(filename):
+def readJL(filename):
     contents = open(filename, "r").read()
     data = [json.loads(str(item)) for item in contents.strip().split('\n')]
     df = pd.DataFrame(data)
@@ -35,14 +37,14 @@ def cleanText(text):
 
 
 def loadPositive():
-    myfile = open('LoughranMcDonald_Positive.csv', "r")
+    myfile = open('financeAnalysis/LoughranMcDonald_Positive.csv', "r")
     positives = myfile.readlines()
     positive = [pos.strip().lower().split(",")[0] for pos in positives]
     return positive
 
 
 def loadNegative():
-    myfile = open('LoughranMcDonald_Negative.csv', "r")
+    myfile = open('financeAnalysis/LoughranMcDonald_Negative.csv', "r")
     negatives = myfile.readlines()
     negative = [neg.strip().lower().split(",")[0] for neg in negatives]
     return negative
@@ -67,18 +69,7 @@ def updateSentimentDataFrame(df):
     negative = loadNegative()
     df['text'] = df['text'].apply(cleanText)
     df['score'] = df['text'].apply(lambda x: getSentiment(x, negative, positive))
-    print(df['score'])
-
-
-def prepareToConcat(filename):
-    df = pd.read_csv(filename, parse_dates=['date'])
-    df = df.drop('text', 1)
-    df = df.dropna()
-    df = df.groupby(['date']).mean()
-    name = re.search(r'/(\w+).csv', filename)
-    df.columns.values[0] = name.group(1)
     return df
-
 
 def mergeSentimentToStocks(stocks):
     df = pd.read_csv('/home/sentiment.csv', index_col='date')
@@ -98,7 +89,28 @@ def createSentimentDataset(sentimentdata):
     print(df.shape[0] * df.shape[1] - df.count().sum())
     return pd.DataFrame(preprocessing.scale(df), index=i, columns=c)
 
-print('reading jl files')
-df = readJson("financeScraper/data/reu_AAPL-Nov-20-2018.jl")
-print('performing sentiment analysis')
-updateSentimentDataFrame(df)
+
+def do_sentiment_analysis(tickers):
+    crawl(tickers)
+    files= os.listdir("financeScraper/data")
+    for i in range(len(files) - 1, -1, -1):
+        file_name = files[i]
+        if (not file_name.endswith(".jl")) or file_name.startswith('blo') or (tickers[0] not in file_name):
+            del files[i]
+    dframes = []
+    for file_name in files:
+        print(file_name)
+        file_to_read = "financeScraper/data/" + file_name
+        dframes.append(readJL(file_to_read))
+    updatedDframes = []
+    print(dframes)
+    for dframe in dframes:
+        updatedDframes.append(updateSentimentDataFrame(dframe))
+    concat_dframe = pd.concat(updatedDframes)
+    return(concat_dframe['score'].sum())
+
+def main():
+    do_sentiment_analysis(["MSFT"])
+
+if __name__ == '__main__':
+    main()

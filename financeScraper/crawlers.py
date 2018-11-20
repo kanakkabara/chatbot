@@ -5,10 +5,10 @@ from scrapy.settings import Settings
 import fileinput
 from datetime import datetime
 
-from financeScraper.items import FinancescraperItem
-from financeScraper import settings as my_settings
+from financeScraper.financeScraper.items import FinancescraperItem
+from financeScraper.financeScraper import settings as my_settings
 
-import financeScraper.utils as utils
+import financeScraper.financeScraper.utils as utils
 
 import scrapy
 
@@ -139,7 +139,6 @@ class MSNBCSpider(scrapy.Spider):
         self.tick = kwargs.get('tick')
         self.start_urls = [self.create_start_url(self.tick)]
 
-
     def parse(self, response):
         for article in response.xpath('//div[@class=\"assets\"]/a'):
             article_link = article.xpath('@href').extract_first()
@@ -147,6 +146,7 @@ class MSNBCSpider(scrapy.Spider):
 
     def parse_article(self, response):
         yield utils.parse(response, self.tick)
+
 
 def crawl(ticks):
     # Create and run spiders
