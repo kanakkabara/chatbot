@@ -5,17 +5,17 @@ from snips_nlu.default_configs import CONFIG_EN
 
 import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
-dataset_path = dir_path + "/dataset/asset_allocation_dataset.json"
+dataset_path = dir_path + "/dataset/advisory_dataset.json"
 
-class SnipAssetAllocation:
+class SnipAdvisory:
 
     __instance__ = None
 
     @staticmethod
     def get_instance():
-        if SnipAssetAllocation.__instance__ is None:
-            SnipAssetAllocation()
-        return SnipAssetAllocation.__instance__
+        if SnipAdvisory.__instance__ is None:
+            SnipAdvisory()
+        return SnipAdvisory.__instance__
 
     def __init__(self):
         load_resources(u"en")
@@ -25,8 +25,7 @@ class SnipAssetAllocation:
 
         self.engine = engine.fit(data_set)
 
-        SnipAssetAllocation.__instance__ = self
+        SnipAdvisory.__instance__ = self
 
     def parse(self, string):
         return self.engine.parse(string)
-
