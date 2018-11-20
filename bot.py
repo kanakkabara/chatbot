@@ -5,6 +5,7 @@ from nltk.stem.lancaster import LancasterStemmer
 import random
 
 from chat_functions import AccountBalance
+from chat_functions.asset_allocation import AssetAllocation
 from intent import get_intents
 from training import get_model
 
@@ -61,6 +62,15 @@ def classify(sentence):
     return return_list
 
 
+def get_query_obj(tag):
+    if tag == 'account_balance':
+        return AccountBalance()
+    elif tag == 'asset_allocation':
+        return AssetAllocation()
+    else:
+        return None
+
+
 def response(sentence, obj, user_id='123', show_details=False):
     intents = get_intents()
 
@@ -72,10 +82,11 @@ def response(sentence, obj, user_id='123', show_details=False):
             for i in intents:
                 # find a tag matching the first result
                 if i['tag'] == results[0][0]:
-                    if i['tag'] == 'account_balance':
-                        obj = AccountBalance() if obj is None else obj
-                        responses, acct = obj.account_balance_handler(sentence)
-                        return random.choice(responses), acct
+
+                    obj = get_query_obj(i['tag']) if obj is None else obj
+                    if obj is not None:
+                        responses, state = obj.handle(sentence)
+                        return random.choice(responses), state
                     responses = i['responses']
                     '''
                     context_info = None
@@ -107,6 +118,8 @@ if __name__ == "__main__":
             res, _obj = response(chat, obj, show_details=True)
             obj = _obj
             print(res)
+            if obj is None:
+                print('What else can I help you with?')
         except(KeyboardInterrupt, EOFError, SystemExit):
             break
 
