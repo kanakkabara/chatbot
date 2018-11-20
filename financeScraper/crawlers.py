@@ -2,6 +2,8 @@ from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.settings import Settings
+import fileinput
+from datetime import datetime
 
 from financeScraper.items import FinancescraperItem
 from financeScraper import settings as my_settings
@@ -9,7 +11,7 @@ from financeScraper import settings as my_settings
 import financeScraper.utils as utils
 
 import scrapy
-import sys, getopt
+
 
 """
     Class: MWSpider
@@ -146,35 +148,50 @@ class MSNBCSpider(scrapy.Spider):
     def parse_article(self, response):
         yield utils.parse(response, self.tick)
 
-def main(argv):
-    inputfile = ''
-    try:
-        opts, args = getopt.getopt(argv, "hi:", ["ifile="])
-    except getopt.GetoptError:
-        print ('crawlers.py -i <inputfile>')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print ('crawlers.py -i <inputfile>')
-            sys.exit()
-        elif opt in ("-i", "--ifile="):
-            inputfile = arg
-
-    ticks = list(read_file(inputfile))
+def crawl(ticks):
     # Create and run spiders
-    configure_logging()
-    crawler_settings = Settings()
-    crawler_settings.setmodule(my_settings)
-    runner = CrawlerRunner(settings=crawler_settings)
+    try:
+        stocks_checked = []
+        today_date = datetime.now()
+        datetime_format_string = '%b-%d-%Y'
+        with fileinput.input(files=('stocks.txt'), inplace=True, backup='.bak') as f:
+            for line in f:
+                ticker, date = line.rstrip().split(",")
+                if any(ticker in tick for tick in ticks):
+                    stocks_checked.append(ticker)
+                    date_crawled = datetime.strptime(date, datetime_format_string)
+                    last_crawled = (today_date - date_crawled).days
+                    if last_crawled < 2:
+                        ticks.remove(ticker)
+                        print(line.rstrip())
+                    else:
+                        print(ticker+","+today_date.strftime(datetime_format_string))
+                else:
+                    print(line.rstrip())
 
-    for tick in ticks:
-        kwargs = {'tick': tick}
-        runner.crawl(ReutersSpider, **kwargs)
-        runner.crawl(BloSpider, **kwargs)
+        for tick in ticks:
+            if not any(tick in stock for stock in stocks_checked):
+                with open("stocks.txt", "a") as stocks_file:
+                    stocks_file.write(tick+","+today_date.strftime(datetime_format_string))
 
-    d = runner.join()
-    d.addBoth(lambda _: reactor.stop())
-    reactor.run()
+        configure_logging()
+        crawler_settings = Settings()
+        crawler_settings.setmodule(my_settings)
+        runner = CrawlerRunner(settings=crawler_settings)
+        if ticks:
+            for tick in ticks:
+                kwargs = {'tick': tick}
+                runner.crawl(ReutersSpider, **kwargs)
+                runner.crawl(BloSpider, **kwargs)
 
-if __name__ == "__main__":
-    main(sys.argv[1:])
+            d = runner.join()
+            d.addBoth(lambda _: reactor.stop())
+            reactor.run()
+    except IOError:
+        print("I/O error")
+
+def main():
+    crawl(["MSFT"])
+
+if __name__ == '__main__':
+    main()
