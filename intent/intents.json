@@ -2,8 +2,8 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hi", "Hey", "Wassup", "Sup", "How are you", "Is anyone there?", "Hello", "Good day"],
-      "responses": ["Hello, thanks for visiting", "Good to see you again", "Hi there, how can I help?"]
+      "patterns": ["Hi", "Hey", "Wassup", "Sup", "Is anyone there?", "Hello", "Good day"],
+      "responses": ["Hello, thanks for visiting! How can I assist you today?", "Hi there, how can I help?"]
     },
     {
       "tag": "goodbye",
@@ -76,6 +76,11 @@
         "success": ["Account %s currently has HKD%d."],
         "failure": ["Incorrect account number, please specify one of your accounts."]
       }
+    },
+    {
+      "tag": "unknown",
+      "patterns": [""],
+      "responses": ["I don't understand, could you rephrase that?", "I'm sorry, I didn't quite get that, could you rephrase?"]
     }
   ]
 }

@@ -1,3 +1,5 @@
+import random
+
 from intent.intent_manager import *
 from snip.snip_handler import SnipHandler
 
@@ -22,11 +24,14 @@ class Advisory:
             return False
 
     def get_remaining_fields(self):
-
         return list((set(required_fields)).difference(set(self.fields.keys())))
 
     def get_advisory(self):
-        return [f'This is my advice for %s' % self.fields]
+        value = get_advise(self.fields['stock_name'])
+        if value < 0:
+            return [f'I would not recommend you to invest in this stock. Upon further reading, I found that ']
+        else:
+            return [f'I would advice you to invest further in this stock. Upon further reading, I found that ']
 
     def handle(self, sentence):
         snip = SnipHandler.get_instance()
@@ -35,11 +40,13 @@ class Advisory:
             self.fields[self.state] = sentence
             self.state = None
         else:
-            fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
-            for field, value in fields:
-                if field in required_fields:
-                    self.fields[field] = value
-
+            if parsed['slots'] is not None:
+                fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
+                for field, value in fields:
+                    if field in required_fields:
+                        self.fields[field] = value
+            else:
+                return [random.choice(["I'm sorry, I don't understand. Could you rephrase that?"])], None
         if self.has_all_required_fields():
             return self.get_advisory(), None
         else:

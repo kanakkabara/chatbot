@@ -76,7 +76,7 @@ train_y = list(training[:, 1])
 # reset underlying graph data
 model = get_model(train_x, train_y)
 # Start training (apply gradient descent algorithm)
-model.fit(train_x, train_y, n_epoch=1000, batch_size=8, show_metric=True)
+model.fit(train_x, train_y, n_epoch=3000, batch_size=8, show_metric=True)
 model.save('../model/model.tflearn')
 
 pickle.dump({'words': words, 'classes': classes, 'train_x': train_x, 'train_y': train_y}, open("../model/training_data", "wb"))

@@ -1,10 +1,11 @@
 import pickle
-from collections import defaultdict
 
 import numpy as np
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import random
+
+nltk.download('punkt')
 
 from chat_functions import AccountBalance
 from chat_functions.advisory import Advisory
@@ -121,6 +122,12 @@ def get_bot_response(sentence, obj, show_details=False):
                         # a random response from the intent
                         return random.choice(responses), None
             results.pop(0)
+    else:
+        return handle_unknown_message(sentence), obj
+
+
+def handle_unknown_message(sentence):
+    return random.choice(["I'm sorry, I don't understand. Could you rephrase that?"])
 
 
 if __name__ == "__main__":

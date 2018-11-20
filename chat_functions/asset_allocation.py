@@ -1,3 +1,5 @@
+import random
+
 from chat_functions.handler import Handler
 from intent.intent_manager import *
 from snip.snip_handler import SnipHandler
@@ -24,25 +26,25 @@ class AssetAllocation(Handler):
             return False
 
     def get_remaining_fields(self):
-
         return list((set(required_fields)).difference(set(self.fields.keys())))
 
     def get_account_balance(self):
-
         return [f'you asset allocation is ...']
 
     def handle(self, sentence):
         snip = SnipHandler.get_instance()
         parsed = snip.parse(sentence)
         if self.state is not None:
-
             self.fields[self.state] = sentence
             self.state = None
         else:
-            fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
-            for field, value in fields:
-                if field in required_fields:
-                    self.fields[field] = value
+            if parsed['slots'] is not None:
+                fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
+                for field, value in fields:
+                    if field in required_fields:
+                        self.fields[field] = value
+            else:
+                return [random.choice(["I'm sorry, I don't understand. Could you rephrase that?"])], None
         if self.has_all_required_fields():
             return self.get_account_balance(), None
         else:
