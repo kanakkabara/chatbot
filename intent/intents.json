@@ -13,14 +13,61 @@
     {
       "tag": "account_balance",
       "patterns": ["What is my account balance?", "Am I rich?", "How much money do I have?"],
-      "clarifications": ["In which currency would you like to know?"],
+      "clarifications": {
+        "currency": ["In which currency would you like to know?"],
+        "accountNumber": ["What is your account number?"]
+      },
       "responses": {
         "success": ["Account %s currently has HKD%d."],
         "failure": ["Incorrect account number, please specify one of your accounts."]
       },
       "context_set": {
-        "success": {"context": "account_balance", "account": "%s"},
-        "clarification": {"context": "account_balance_clarification", "field": "currency"}
+        "success": {
+          "context": "account_balance",
+          "account": "%s"
+        },
+        "clarification": {
+          "context": "account_balance_clarification",
+          "field": "currency"
+        }
+      }
+    },
+    {
+      "tag": "asset_allocation",
+      "patterns": ["What is my asset allocation?", "Show me my portfolio", "How much money do I have in asset portfolio "],
+      "clarifications": {
+        "BU":[
+          "Which BU are you referring to?",
+          "Which BU are you talking about?"
+        ],
+        "CIF":[
+          "Which CIF are you referring to?",
+          "What is your CIF?"
+        ],
+        "allocationGroup": [
+          "What is your allocation group?"
+        ]
+      },
+      "responses": {
+        "success": ["Account %s currently has HKD%d."],
+        "failure": ["Incorrect account number, please specify one of your accounts."]
+      },
+      "context_set": {
+        "success": {"context": "asset_allocation", "account": "%s"},
+        "clarification": {"context": "account_balance_clarification", "field": "BU"}
+      }
+    },
+
+    {
+      "tag": "empty",
+      "patterns": [""],
+      "responses": {
+        "success": ["Account %s currently has HKD%d."],
+        "failure": ["Incorrect account number, please specify one of your accounts."]
+      },
+      "context_filter": "account_balance_clarification",
+      "context_set": {
+        "success": {"context": "account_balance", "account": "%s"}
       }
     }
   ]
