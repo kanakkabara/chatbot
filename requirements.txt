@@ -5,3 +5,9 @@ nltk
 requests
 prompt-toolkit==1.0.15
 parsedatetime
+scrapy
+fileinput
+twisted
+pandas
+bs4
+websockets
