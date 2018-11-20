@@ -534,6 +534,38 @@
         {
           "data": [
             {
+              "text": "Set up a meeting with "
+            },
+            {
+              "entity": "attendee",
+              "slot_name": "schedule",
+              "text": "andrew"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Set up an appointment at "
+            },
+            {
+              "entity": "snips/datetime",
+              "slot_name": "schedule",
+              "text": "6"
+            },
+            {
+              "text": " with "
+            },
+            {
+              "entity": "attendee",
+              "slot_name": "schedule",
+              "text": "andrew"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
               "text": "I would like to talk to "
             },
             {
