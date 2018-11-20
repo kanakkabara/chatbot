@@ -1,8 +1,6 @@
-import nltk
-
-from chat_functions.handler import Handler
 from intent.intent_manager import *
-from snip.snip_account_balance import SnipAccountBalance
+from chat_functions.handler import Handler
+from snip.snip_handler import SnipHandler
 
 is_noun = lambda pos: pos[:2] == 'NN'
 
@@ -10,11 +8,11 @@ required_fields = ['currency', 'accountNumber']
 
 
 class AccountBalance(Handler):
+    tag = 'account_balance'
 
     def __init__(self, _dict=None):
         self.fields = dict() if _dict is None else _dict
         self.state = None
-        self.tag = 'account_balance'
 
     def has_all_required_fields(self):
         if self.fields is None:
@@ -32,9 +30,7 @@ class AccountBalance(Handler):
         return ['you account balance is 100']
 
     def handle(self, sentence):
-        words = nltk.word_tokenize(sentence)
-
-        snip = SnipAccountBalance.get_instance()
+        snip = SnipHandler.get_instance()
         parsed = snip.parse(sentence)
         if self.state is not None:
             self.fields[self.state] = sentence

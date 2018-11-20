@@ -1,8 +1,6 @@
-import nltk
-
 from chat_functions.handler import Handler
 from intent.intent_manager import *
-from snip.snip_asset_allocation import SnipAssetAllocation
+from snip.snip_handler import SnipHandler
 
 is_noun = lambda pos: pos[:2] == 'NN'
 
@@ -11,11 +9,11 @@ permitted_fields = ['currency', 'portfolioId']
 
 
 class AssetAllocation(Handler):
+    tag = 'asset_allocation'
 
     def __init__(self, _dict=None):
         self.fields = dict() if _dict is None else _dict
         self.state = None
-        self.tag = 'asset_allocation'
 
     def has_all_required_fields(self):
         if self.fields is None:
@@ -34,9 +32,7 @@ class AssetAllocation(Handler):
         return [f'you asset allocation is ...']
 
     def handle(self, sentence):
-        words = nltk.word_tokenize(sentence)
-
-        snip = SnipAssetAllocation.get_instance()
+        snip = SnipHandler.get_instance()
         parsed = snip.parse(sentence)
         if self.state is not None:
 

@@ -1,6 +1,5 @@
-import nltk
 from intent.intent_manager import *
-from snip.snip_advisory import SnipAdvisory
+from snip.snip_handler import SnipHandler
 
 is_noun = lambda pos: pos[:2] == 'NN'
 
@@ -30,7 +29,7 @@ class Advisory:
         return [f'This is my advice for %s' % self.fields]
 
     def handle(self, sentence):
-        snip = SnipAdvisory.get_instance()
+        snip = SnipHandler.get_instance()
         parsed = snip.parse(sentence)
         if self.state is not None:
             self.fields[self.state] = sentence

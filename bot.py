@@ -1,4 +1,6 @@
 import pickle
+from collections import defaultdict
+
 import numpy as np
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
@@ -66,14 +68,24 @@ def classify(sentence):
 
 def get_query_obj(tag):
     objs = {
-        'account_balance': AccountBalance,
-        'asset_allocation': AssetAllocation,
+        AccountBalance.tag: AccountBalance,
+        AssetAllocation.tag: AssetAllocation,
         Advisory.tag: Advisory
     }
     return None if tag not in objs else objs[tag]()
 
 
-def response(sentence, obj, user_id='123', show_details=False):
+states = {}
+
+
+def response(sentence, user_id):
+    state = states[user_id] if user_id in states else None
+    res, new_state = get_bot_response(sentence, state, True)
+    states[user_id] = new_state
+    return res, new_state
+
+
+def get_bot_response(sentence, obj, show_details=False):
     intents = get_intents()
 
     results = [[obj.tag]] if obj is not None else classify(sentence)
@@ -102,8 +114,8 @@ def response(sentence, obj, user_id='123', show_details=False):
                             print('context:', context[user_id])
                     '''
                     # check if this intent is contextual and applies to this user's conversation
-                    if not 'context_filter' in i or (
-                            user_id in context and 'context_filter' in i and i['context_filter'] == context[user_id]):
+                    if not 'context_filter' in i:
+                        # or (user_id in context and 'context_filter' in i and i['context_filter'] == context[user_id]):
                         if show_details:
                             print('tag:', i['tag'])
                         # a random response from the intent
@@ -113,15 +125,13 @@ def response(sentence, obj, user_id='123', show_details=False):
 
 if __name__ == "__main__":
     print("Welcome!")
-    obj = None
+    user_id = "123"
     while True:
         try:
             chat = input()
-            res, _obj = response(chat, obj, show_details=True)
-            obj = _obj
+            res, obj = response(chat, user_id)
             print(res)
             if obj is None:
                 print('What else can I help you with?')
         except(KeyboardInterrupt, EOFError, SystemExit):
             break
-

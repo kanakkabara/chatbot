@@ -1,0 +1,395 @@
+{
+  "entities": {
+    "BU": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
+    "CIF": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
+    "accountNumber": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
+    "allocationGroup": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
+    "currency": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
+    "stockName": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    }
+  },
+  "intents": {
+    "account_balance": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "text": "What is my account balance for account "
+            },
+            {
+              "entity": "accountNumber",
+              "slot_name": "accountQueryNumber",
+              "text": "1234"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "give me some my account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "JPY"
+            },
+            {
+              "text": " please"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "please give me account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "JPY"
+            },
+            {
+              "text": " for account "
+            },
+            {
+              "entity": "accountNumber",
+              "slot_name": "accountQueryNumber",
+              "text": "1234"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "please give me account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "RMB"
+            },
+            {
+              "text": " for account "
+            },
+            {
+              "entity": "accountNumber",
+              "slot_name": "accountQueryNumber",
+              "text": "1234"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "What is my account balance in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "HKD"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Tell me the account number in "
+            },
+            {
+              "entity": "currency",
+              "slot_name": "accountQueryCurrency",
+              "text": "HKD"
+            }
+          ]
+        }
+      ]
+    },
+    "advisory": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "text": "What is your view on "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "AAPL"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "What is your view on "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Apple"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "What do you think about making an investment in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "TSLA"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Should I consider investing in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "GOOGL"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Should I invest in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "MSFT"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Is it a good idea to invest in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Microsoft"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Amazon"
+            },
+            {
+              "text": " is performing well right now, should I invest in it?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "My friend suggested buying some "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Apple"
+            },
+            {
+              "text": " stock, should I do it?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "I am thinking of getting some "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Apple"
+            },
+            {
+              "text": " stock, what do you think?"
+            }
+          ]
+        }
+      ]
+    },
+    "asset_allocation": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "text": "what is my asset for allocation group "
+            },
+            {
+              "entity": "allocationGroup",
+              "slot_name": "assetAllocationQueryGroup",
+              "text": "Currency"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "show me my asset allocation for group "
+            },
+            {
+              "entity": "allocationGroup",
+              "slot_name": "assetAllocationQueryGroup",
+              "text": "Portfolio"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "my portfolio , BU "
+            },
+            {
+              "entity": "BU",
+              "slot_name": "assetAllocationQueryBU",
+              "text": "0055"
+            },
+            {
+              "text": ", CIF "
+            },
+            {
+              "entity": "CIF",
+              "slot_name": "assetAllocationQueryCIF",
+              "text": "12343"
+            },
+            {
+              "text": ", what is it?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "tell me my asset portfolio by "
+            },
+            {
+              "entity": "allocationGroup",
+              "slot_name": "assetAllocationQueryGroup",
+              "text": "asset category"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "tell me my asset portfolio by "
+            },
+            {
+              "entity": "allocationGroup",
+              "slot_name": "assetAllocationQueryGroup",
+              "text": "currency"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "my asset "
+            },
+            {
+              "entity": "allocationGroup",
+              "slot_name": "assetAllocationQueryGroup",
+              "text": "portfolio"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "my asset "
+            },
+            {
+              "entity": "allocationGroup",
+              "slot_name": "assetAllocationQueryGroup",
+              "text": "portfolio"
+            },
+            {
+              "text": " for BU:"
+            },
+            {
+              "entity": "BU",
+              "slot_name": "assetAllocationQueryBU",
+              "text": "0055"
+            },
+            {
+              "text": ", with CIF "
+            },
+            {
+              "entity": "CIF",
+              "slot_name": "assetAllocationQueryCIF",
+              "text": "12343"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "language": "en"
+}
