@@ -1,0 +1,149 @@
+{
+  "entities": {
+    "stockName": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    }
+  },
+  "intents": {
+    "advisory": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "text": "What is your view on "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "AAPL"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "What is your view on "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Apple"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "What do you think about making an investment in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "TSLA"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Should I consider investing in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "GOOGL"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Should I invest in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "MSFT"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Is it a good idea to invest in "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Microsoft"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Amazon"
+            },
+            {
+              "text": " is performing well right now, should I invest in it?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "My friend suggested buying some "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Apple"
+            },
+            {
+              "text": " stock, should I do it?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "I am thinking of getting some "
+            },
+            {
+              "entity": "stockName",
+              "slot_name": "stockName",
+              "text": "Apple"
+            },
+            {
+              "text": " stock, what do you think?"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "language": "en"
+}
