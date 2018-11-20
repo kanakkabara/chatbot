@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-# example interactive client application using prompt_toolkit
-# code is terrible, bugs are expected
-# kind of works
 
 from prompt_toolkit.interface import CommandLineInterface
 from prompt_toolkit.styles import style_from_dict
@@ -19,6 +16,7 @@ import asyncio
 import unha2.client as client
 from unha2.model.base import RoomType
 from unha2.methods import MethodError
+from bot import response
 
 eventloop = create_asyncio_eventloop()
 cli = CommandLineInterface(
@@ -48,7 +46,7 @@ def cmd(n):
                 return
             spl = args.split(' ', maxsplit=n)
             if len(spl) != n:
-                log.error('Wrong args')
+                print('Wrong args')
                 return False
             else:
                 func(self, *spl)
@@ -133,7 +131,7 @@ class FreetalkLike(client.OverrideClient):
 
     async def make_new_room_and_add_user(self, name, user_id):
         if name in self.name_map:
-            log.error("Room with given name already exists please try a different name")
+            print("Room with given name already exists please try a different name")
         else:
             result = await self.api.make_room_and_add_user(name, [user_id.name])
             self.room_map[result['result']['rid']] = name
@@ -251,7 +249,7 @@ class FreetalkLike(client.OverrideClient):
             if com=="send":
                 room, *message = remainder[0].split(' ', maxsplit=1)
                 self.api.send_msg(self.name_map[room], message[0])
-            elfif remainder:
+            elif remainder:
                 handlers[com](remainder[0])
             else:
                 handlers[com]()
@@ -287,6 +285,9 @@ class FreetalkLike(client.OverrideClient):
         if msg.get('attachments'):
             for att in msg['attachments']:
                 content.append((Token, '\n %s - %s' % (att.get('author_link', ''), att.get('author_name', ''))))
+        if self.room_map[msg['room_id']] != 'general' and msg['user'].name != 'roncool':
+            response_message = response(msg['msg'], None, msg['user'].name)[0]
+            self.api.send_msg(msg['room_id'], response_message)
         return self.room_build(msg['room_id'], msg['creation_time'], content)
 
     async def on_room_message(self, msg):
