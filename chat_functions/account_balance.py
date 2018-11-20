@@ -1,28 +1,53 @@
 import nltk
-import re
-
-from intent import get_intent
+from intent.intent_manager import *
+from snip.snip_account_balance import SnipAccountBalance
 
 is_noun = lambda pos: pos[:2] == 'NN'
 
-
-def account_balance_handler(sentence):
-    words = nltk.word_tokenize(sentence)
-    nouns = [word for (word, pos) in nltk.pos_tag(words) if is_noun(pos)]
-
-    r = re.compile("^S[0-9]{6}$")
-    account_number = list(filter(r.match, nouns))
-
-    intent = get_intent('account_balance')
-    if account_number:
-        response = intent['responses'][0]
-        response = response % (account_number[0], get_account_balance(account_number[0]))
-        return [response], intent['context_set']['success'] % account_number[0]
-    else:
-        return intent['clarifications'], intent['context_set']['clarification']['context']
+required_fields = ['currency', 'accountNumber']
 
 
-def get_account_balance(account_number):
-    # TODO fetch data
-    print("perform transaction %s" % account_number)
-    return 1000
+class AccountBalance:
+
+    def __init__(self, _dict=None):
+        self.fields = dict() if _dict is None else _dict
+        self.state = None
+        self.tag = 'account_balance'
+
+    def has_all_required_fields(self):
+        if self.fields is None:
+            return False
+        if sorted(self.fields.keys()) == sorted(required_fields):
+            return True
+        else:
+            return False
+
+    def get_remaining_fields(self):
+
+        return list((set(required_fields)).difference(set(self.fields.keys())))
+
+    def get_account_balance(self):
+        return ['you account balance is 100']
+
+    def account_balance_handler(self, sentence):
+        words = nltk.word_tokenize(sentence)
+
+        snip = SnipAccountBalance.get_instance()
+        parsed = snip.parse(sentence)
+        if self.state is not None:
+            self.fields[self.state] = sentence
+            self.state = None
+        else:
+            fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
+            for field, value in fields:
+                if field in required_fields:
+                    self.fields[field] = value
+
+        if self.has_all_required_fields():
+            return self.get_account_balance(), self
+        else:
+            remaining_field = self.get_remaining_fields()[0]
+            intent = get_clarification_for_field(remaining_field, 'account_balance')
+            self.state = remaining_field
+            return intent['clarifications'], self
+

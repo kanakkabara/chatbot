@@ -20,9 +20,23 @@
       },
       "context_set": {
         "success": {"context": "account_balance", "account": "%s"},
-        "clarification": {"context": "account_balance_clarification"}
+        "clarification": {"context": "account_balance_clarification", "field": "accountNumber"}
       }
     },
+    {
+      "tag": "account_balance",
+      "patterns": ["What is my account balance?", "Am I rich?", "How much money do I have?"],
+      "clarifications": ["In which currency would you like to know?"],
+      "responses": {
+        "success": ["Account %s currently has HKD%d."],
+        "failure": ["Incorrect account number, please specify one of your accounts."]
+      },
+      "context_set": {
+        "success": {"context": "account_balance", "account": "%s"},
+        "clarification": {"context": "account_balance_clarification", "field": "currency"}
+      }
+    },
+
     {
       "tag": "empty",
       "patterns": [""],
