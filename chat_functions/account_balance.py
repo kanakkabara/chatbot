@@ -29,7 +29,7 @@ class AccountBalance:
     def get_account_balance(self):
         return ['you account balance is 100']
 
-    def account_balance_handler(self, sentence):
+    def handle(self, sentence):
         words = nltk.word_tokenize(sentence)
 
         snip = SnipAccountBalance.get_instance()
@@ -47,7 +47,6 @@ class AccountBalance:
             return self.get_account_balance(), None
         else:
             remaining_field = self.get_remaining_fields()[0]
-            intent = get_intent('account_balance')
             self.state = remaining_field
-            return intent['clarifications'], self
+            return get_clarification_for_field(remaining_field, 'account_balance'), self
 

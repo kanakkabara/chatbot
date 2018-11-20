@@ -31,12 +31,13 @@ class AssetAllocation:
 
         return [f'you asset allocation is ...']
 
-    def account_balance_handler(self, sentence):
+    def handle(self, sentence):
         words = nltk.word_tokenize(sentence)
 
         snip = SnipAssetAllocation.get_instance()
         parsed = snip.parse(sentence)
         if self.state is not None:
+
             self.fields[self.state] = sentence
             self.state = None
         else:
@@ -44,12 +45,11 @@ class AssetAllocation:
             for field, value in fields:
                 if field in required_fields:
                     self.fields[field] = value
-
         if self.has_all_required_fields():
-            return self.get_account_balance(), self
+            return self.get_account_balance(), None
         else:
             remaining_field = self.get_remaining_fields()[0]
-            intent = get_clarification_for_field(remaining_field, 'asset_allocation')
+            responses = get_clarification_for_field(remaining_field, 'asset_allocation')
             self.state = remaining_field
-            return intent['clarifications'], self
+            return responses, self
 

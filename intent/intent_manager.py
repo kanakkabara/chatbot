@@ -19,9 +19,6 @@ def get_intents_by_tag(tag):
 
 
 def get_clarification_for_field(field, tag):
-    for intent in get_intents_by_tag(tag):
-        if 'clarification' in intent['context_set'].keys():
-            if 'field' in intent['context_set']['clarification'].keys():
-                if intent['context_set']['clarification']['field'] == field:
-                    return intent
+    intent = get_intent(tag)
+    return intent['clarifications'][field]
 
