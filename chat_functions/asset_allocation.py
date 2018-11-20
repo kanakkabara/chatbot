@@ -1,4 +1,6 @@
 import nltk
+
+from chat_functions.handler import Handler
 from intent.intent_manager import *
 from snip.snip_asset_allocation import SnipAssetAllocation
 
@@ -8,7 +10,7 @@ required_fields = ['BU', 'CIF', 'allocationGroup']
 permitted_fields = ['currency', 'portfolioId']
 
 
-class AssetAllocation:
+class AssetAllocation(Handler):
 
     def __init__(self, _dict=None):
         self.fields = dict() if _dict is None else _dict

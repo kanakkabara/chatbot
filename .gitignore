@@ -3,3 +3,4 @@ tflearn_logs
 .idea/
 *.__pycache__
 *.pyc
+model/

@@ -1,4 +1,6 @@
 import nltk
+
+from chat_functions.handler import Handler
 from intent.intent_manager import *
 from snip.snip_account_balance import SnipAccountBalance
 
@@ -7,7 +9,7 @@ is_noun = lambda pos: pos[:2] == 'NN'
 required_fields = ['currency', 'accountNumber']
 
 
-class AccountBalance:
+class AccountBalance(Handler):
 
     def __init__(self, _dict=None):
         self.fields = dict() if _dict is None else _dict
