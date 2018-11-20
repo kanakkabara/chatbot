@@ -44,10 +44,10 @@ class AccountBalance:
                     self.fields[field] = value
 
         if self.has_all_required_fields():
-            return self.get_account_balance(), self
+            return self.get_account_balance(), None
         else:
             remaining_field = self.get_remaining_fields()[0]
-            intent = get_clarification_for_field(remaining_field, 'account_balance')
+            intent = get_intent('account_balance')
             self.state = remaining_field
             return intent['clarifications'], self
 

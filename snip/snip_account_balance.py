@@ -2,8 +2,10 @@ import io
 import json
 from snips_nlu import SnipsNLUEngine, load_resources
 from snips_nlu.default_configs import CONFIG_EN
-dataset_path = "snip\\dataset\\account_balance_dataset.json"
 
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dataset_path = dir_path + "/dataset/account_balance_dataset.json"
 
 class SnipAccountBalance:
 

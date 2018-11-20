@@ -64,7 +64,7 @@ def classify(sentence):
 def response(sentence, obj, user_id='123', show_details=False):
     intents = get_intents()
 
-    results = classify(sentence)
+    results = [[obj.tag]] if obj is not None else classify(sentence)
     # if we have a classificati12on then find the matching intent tag
     if results:
         # loop as long as there are matches to process
@@ -72,13 +72,12 @@ def response(sentence, obj, user_id='123', show_details=False):
             for i in intents:
                 # find a tag matching the first result
                 if i['tag'] == results[0][0]:
-                    obj = AccountBalance() if obj is None else obj
-                    if i['tag'] == 'account_balance' or obj.tag == 'account_balance':
-
+                    if i['tag'] == 'account_balance':
+                        obj = AccountBalance() if obj is None else obj
                         responses, acct = obj.account_balance_handler(sentence)
                         return random.choice(responses), acct
-                    '''
                     responses = i['responses']
+                    '''
                     context_info = None
                     if i['tag'] == "account_balance" or i['tag'] == 'account_balance_clarification':
                         responses, context_info = AccountBalance().account_balance_handler(sentence)
@@ -88,15 +87,14 @@ def response(sentence, obj, user_id='123', show_details=False):
                         context[user_id] = i['context_set'] if context_info is None else context_info
                         if show_details:
                             print('context:', context[user_id])
-
+                    '''
                     # check if this intent is contextual and applies to this user's conversation
                     if not 'context_filter' in i or (
                             user_id in context and 'context_filter' in i and i['context_filter'] == context[user_id]):
                         if show_details:
                             print('tag:', i['tag'])
                         # a random response from the intent
-                        return random.choice(responses)
-                    '''
+                        return random.choice(responses), None
             results.pop(0)
 
 
@@ -108,8 +106,6 @@ if __name__ == "__main__":
             chat = input()
             res, _obj = response(chat, obj, show_details=True)
             obj = _obj
-            if _obj is None:
-                print('what else can i help you with?')
             print(res)
         except(KeyboardInterrupt, EOFError, SystemExit):
             break
