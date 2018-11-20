@@ -98,8 +98,6 @@ def createSentimentDataset(sentimentdata):
     print(df.shape[0] * df.shape[1] - df.count().sum())
     return pd.DataFrame(preprocessing.scale(df), index=i, columns=c)
 
-def performSentimentAnalysis(ticker)
-
 print('reading jl files')
 df = readJson("financeScraper/data/reu_AAPL-Nov-20-2018.jl")
 print('performing sentiment analysis')
