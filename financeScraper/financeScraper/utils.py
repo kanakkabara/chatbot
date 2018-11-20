@@ -67,7 +67,7 @@ def parse(response, tick):
     """
     # Switch case on news source
     base_url = strip_base_url(response.url)
-    headline = author = raw_text = text = ""
+    headline = author = raw_text = text = date = ""
     item = FinancescraperItem()
 
     print("Base url is: ")
@@ -87,6 +87,7 @@ def parse(response, tick):
         headline = response.xpath('//title/text()').extract_first()
         headline = clean_text(headline.split())
         author   = response.xpath('//meta[@name=\'Author\']/@content').extract_first()
+        date = response.xpath('//div[@class=\"ArticleHeader_date\"]/text()').extract()[0].split("/")[0].rstrip()
         raw_text = response.xpath('//p[not(@class)]/node()[not(self::a or self::span)]').extract()
         text     = clean_text(raw_text)
 
@@ -94,7 +95,8 @@ def parse(response, tick):
         # Do something
         headline = response.xpath('//title/text()').extract_first()
         author   = response.xpath('//address[@class]/text()').extract_first()
-        raw_text = response.xpath('//div[@class=\"body-copy\"]/p/text()').extract()
+        raw_text = response.xpath('//div[@class=\"body-copy-v2\"]/p/text()').extract()
+        date = response.xpath('//div[@class=\"article-timestamp\"]/datetime/text()').extract()
         text     = clean_text(raw_text)
     elif base_url == NewsSource.msn.value:
         # Do Something
@@ -121,5 +123,6 @@ def parse(response, tick):
     item['link']     = response.url
     item['text']     = text
     item['source']   = base_url
+    item['date']     = date
 
     return item

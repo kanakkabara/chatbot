@@ -169,10 +169,8 @@ def main(argv):
 
     for tick in ticks:
         kwargs = {'tick': tick}
-        runner.crawl(MWSpider, **kwargs)
         runner.crawl(ReutersSpider, **kwargs)
         runner.crawl(BloSpider, **kwargs)
-        runner.crawl(MSNBCSpider, **kwargs)
 
     d = runner.join()
     d.addBoth(lambda _: reactor.stop())

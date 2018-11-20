@@ -16,3 +16,4 @@ class FinancescraperItem(scrapy.Item):
     link     = scrapy.Field()
     text     = scrapy.Field()
     source   = scrapy.Field()
+    date     = scrapy.Field()
