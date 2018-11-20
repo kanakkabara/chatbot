@@ -1,5 +1,3 @@
-import random
-
 from chat_functions.handler import Handler
 from intent.intent_manager import *
 from snip.snip_handler import SnipHandler
@@ -17,18 +15,8 @@ class AssetAllocation(Handler):
         self.fields = dict() if _dict is None else _dict
         self.state = None
 
-    def has_all_required_fields(self):
-        if self.fields is None:
-            return False
-        if sorted(self.fields.keys()) == sorted(required_fields):
-            return True
-        else:
-            return False
 
-    def get_remaining_fields(self):
-        return list((set(required_fields)).difference(set(self.fields.keys())))
-
-    def get_account_balance(self):
+    def get_asset_allocation(self):
         return [f'you asset allocation is ...']
 
     def handle(self, sentence):
@@ -46,7 +34,7 @@ class AssetAllocation(Handler):
             else:
                 return [random.choice(["I'm sorry, I don't understand. Could you rephrase that?"])], None
         if self.has_all_required_fields():
-            return self.get_account_balance(), None
+            return self.get_asset_allocation(), None
         else:
             remaining_field = self.get_remaining_fields()[0]
             responses = get_clarification_for_field(remaining_field, 'asset_allocation')
