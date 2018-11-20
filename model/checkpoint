@@ -1,2 +1,2 @@
-model_checkpoint_path: "C:\\Users\\Kanak\\Desktop\\chatbot\\model\\model.tflearn"
-all_model_checkpoint_paths: "C:\\Users\\Kanak\\Desktop\\chatbot\\model\\model.tflearn"
+model_checkpoint_path: "/home/kanak/chatbot/model/model.tflearn"
+all_model_checkpoint_paths: "/home/kanak/chatbot/model/model.tflearn"

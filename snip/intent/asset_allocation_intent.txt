@@ -1,0 +1,4 @@
+what is my asset for allocation group [assetAllocationQueryGroup: allocationGroup](Currency)?
+show me my asset allocation for group [assetAllocationQueryGroup: allocationGroup](Portfolio)?
+my portfolio , BU [assetAllocationQueryBU: BU](0055), CIF [assetAllocationQueryCIF: CIF](12343), what is it
+tell me my asset portfolio for (BU )

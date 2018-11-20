@@ -4,7 +4,7 @@ import nltk
 from nltk.stem.lancaster import LancasterStemmer
 import random
 
-from chat_functions import account_balance_handler
+from chat_functions import AccountBalance
 from intent import get_intents
 from training import get_model
 
@@ -61,44 +61,52 @@ def classify(sentence):
     return return_list
 
 
-def response(sentence, user_id='123', show_details=False):
+def response(sentence, obj, user_id='123', show_details=False):
     intents = get_intents()
 
-    results = classify(sentence)
-    # if we have a classification then find the matching intent tag
+    results = [[obj.tag]] if obj is not None else classify(sentence)
+    # if we have a classificati12on then find the matching intent tag
     if results:
         # loop as long as there are matches to process
         while results:
             for i in intents:
                 # find a tag matching the first result
                 if i['tag'] == results[0][0]:
+                    if i['tag'] == 'account_balance':
+                        obj = AccountBalance() if obj is None else obj
+                        responses, acct = obj.account_balance_handler(sentence)
+                        return random.choice(responses), acct
                     responses = i['responses']
+                    '''
                     context_info = None
                     if i['tag'] == "account_balance" or i['tag'] == 'account_balance_clarification':
-                        responses, context_info = account_balance_handler(sentence)
+                        responses, context_info = AccountBalance().account_balance_handler(sentence)
 
                     # set context for this intent if necessary
                     if 'context_set' in i:
                         context[user_id] = i['context_set'] if context_info is None else context_info
                         if show_details:
                             print('context:', context[user_id])
-
+                    '''
                     # check if this intent is contextual and applies to this user's conversation
                     if not 'context_filter' in i or (
                             user_id in context and 'context_filter' in i and i['context_filter'] == context[user_id]):
                         if show_details:
                             print('tag:', i['tag'])
                         # a random response from the intent
-                        return random.choice(responses)
-
+                        return random.choice(responses), None
             results.pop(0)
 
 
 if __name__ == "__main__":
     print("Welcome!")
+    obj = None
     while True:
         try:
             chat = input()
-            print(response(chat, show_details=True))
+            res, _obj = response(chat, obj, show_details=True)
+            obj = _obj
+            print(res)
         except(KeyboardInterrupt, EOFError, SystemExit):
             break
+
