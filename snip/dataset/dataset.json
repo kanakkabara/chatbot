@@ -24,13 +24,31 @@
       "parser_threshold": 1.0,
       "use_synonyms": true
     },
+    "attendee": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
     "currency": {
       "automatically_extensible": true,
       "data": [],
       "parser_threshold": 1.0,
       "use_synonyms": true
     },
+    "location": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
     "stockName": {
+      "automatically_extensible": true,
+      "data": [],
+      "parser_threshold": 1.0,
+      "use_synonyms": true
+    },
+    "time": {
       "automatically_extensible": true,
       "data": [],
       "parser_threshold": 1.0,
@@ -385,6 +403,151 @@
               "entity": "CIF",
               "slot_name": "assetAllocationQueryCIF",
               "text": "12343"
+            }
+          ]
+        }
+      ]
+    },
+    "meeting_scheduler": {
+      "utterances": [
+        {
+          "data": [
+            {
+              "text": "Can we talk over on "
+            },
+            {
+              "entity": "time",
+              "slot_name": "schedule",
+              "text": "Sunday evening"
+            },
+            {
+              "text": " with "
+            },
+            {
+              "entity": "attendee",
+              "slot_name": "schedule",
+              "text": "Jeff"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Let's talk about it at "
+            },
+            {
+              "entity": "time",
+              "slot_name": "schedule",
+              "text": "6:00"
+            },
+            {
+              "text": " at "
+            },
+            {
+              "entity": "location",
+              "slot_name": "schedule",
+              "text": "Meeting Room"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Can we schedule a meeting "
+            },
+            {
+              "entity": "time",
+              "slot_name": "schedule",
+              "text": "tomorrow"
+            },
+            {
+              "text": " on "
+            },
+            {
+              "entity": "location",
+              "slot_name": "schedule",
+              "text": "room c"
+            },
+            {
+              "text": " with "
+            },
+            {
+              "entity": "attendee",
+              "slot_name": "schedule",
+              "text": "Wang"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "I would like to meet with "
+            },
+            {
+              "entity": "attendee",
+              "slot_name": "schedule",
+              "text": "Kevin"
+            },
+            {
+              "text": " at around "
+            },
+            {
+              "entity": "time",
+              "slot_name": "schedule",
+              "text": "5 o'clock"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Please schedule a meeting "
+            },
+            {
+              "entity": "time",
+              "slot_name": "schedule",
+              "text": "some time next week"
+            },
+            {
+              "text": "?"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Can you set up an appointment on "
+            },
+            {
+              "entity": "time",
+              "slot_name": "schedule",
+              "text": "Second Sunday of this month"
+            },
+            {
+              "text": " at "
+            },
+            {
+              "entity": "location",
+              "slot_name": "schedule",
+              "text": "your office"
+            }
+          ]
+        },
+        {
+          "data": [
+            {
+              "text": "Can you schedule something at "
+            },
+            {
+              "entity": "time",
+              "slot_name": "schedule",
+              "text": "9:00"
+            },
+            {
+              "text": "?"
             }
           ]
         }

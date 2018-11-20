@@ -1,42 +1,37 @@
+import json
+
 from chat_functions.handler import Handler
-from intent.intent_manager import *
+from intent.intent_manager import get_clarification_for_field
 from snip.snip_handler import SnipHandler
 
-is_noun = lambda pos: pos[:2] == 'NN'
 
-required_fields = ['BU', 'CIF', 'allocationGroup']
-permitted_fields = ['currency', 'portfolioId']
-
-
-class AssetAllocation(Handler):
-    tag = 'asset_allocation'
+class MeetingScheduler(Handler):
+    required_fields = ['location', 'time']
+    tag = 'schedule_meeting'
 
     def __init__(self, _dict=None):
-        self.fields = dict() if _dict is None else _dict
-        self.state = None
+        super()
+        super().__init__(_dict)
 
-
-    def get_asset_allocation(self):
-
-        return [f'you asset allocation is ...']
+    def schedule_meeting(self):
+        return ['your meeting has been confirmed', 'I have set up the appointment']
 
     def handle(self, sentence):
         snip = SnipHandler.get_instance()
         parsed = snip.parse(sentence)
         if self.state is not None:
-
             self.fields[self.state] = sentence
             self.state = None
         else:
             fields = list(map(lambda x: (x['entity'], x['value']['value']), parsed['slots']))
             for field, value in fields:
-                if field in required_fields:
+                if field in self.required_fields:
                     self.fields[field] = value
+
         if self.has_all_required_fields():
-            return self.get_asset_allocation(), None
+            return self.schedule_meeting(), None
         else:
             remaining_field = self.get_remaining_fields()[0]
-            responses = get_clarification_for_field(remaining_field, 'asset_allocation')
             self.state = remaining_field
-            return responses, self
+            return get_clarification_for_field(remaining_field, 'schedule_meeting'), self
 

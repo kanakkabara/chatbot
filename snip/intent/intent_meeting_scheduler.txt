@@ -1,0 +1,8 @@
+Can we talk over on [schedule:time](Sunday evening) with [schedule:attendee](Jeff)
+Let's talk about it at [schedule:time](6:00) at [schedule:location](Meeting Room)
+Can we schedule a meeting [schedule:time](tomorrow) on [schedule:location](room c) with [schedule:attendee](Wang)?
+I would like to meet with [schedule:attendee](Kevin) at around [schedule:time](5 o'clock)
+Please schedule a meeting [schedule:time](some time next week)?
+Can you set up an appointment on [schedule:time](Second Sunday of this month) at [schedule:location](your office)
+Can you schedule something at [schedule:time](9:00)?
+I would like to talk to [schedule:attendee]andrew about it at [schedule:time](4:00)

@@ -9,6 +9,7 @@ import random
 from chat_functions import AccountBalance
 from chat_functions.advisory import Advisory
 from chat_functions.asset_allocation import AssetAllocation
+from chat_functions.meeting_scheduler import MeetingScheduler
 from intent import get_intents
 from training import get_model
 
@@ -70,7 +71,9 @@ def get_query_obj(tag):
     objs = {
         AccountBalance.tag: AccountBalance,
         AssetAllocation.tag: AssetAllocation,
-        Advisory.tag: Advisory
+        Advisory.tag: Advisory,
+        MeetingScheduler.tag: MeetingScheduler
+
     }
     return None if tag not in objs else objs[tag]()
 

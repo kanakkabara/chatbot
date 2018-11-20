@@ -33,6 +33,34 @@
       }
     },
     {
+      "tag": "schedule_meeting",
+      "patterns": ["Can you set up a meeting?",
+                  "I would like to have an appointment with Anakin at Room87L tomorrow",
+                  "Let's meet with John to talk about this",
+                  "Please schedule a meeting with Kevin on Friday"],
+      "clarifications": {
+        "time":[
+          "What time would you like to have this meeting?",
+          "When do you want to meet?"
+        ],
+        "location":[
+          "Where would you like to have this meeting?",
+          "What is your preferred venue?"
+        ],
+        "attendee": [
+          "What do you want to meet with?",
+          "Who is required in the meeting?"
+        ]
+      },
+      "responses": {
+        "success": ["Account %s currently has HKD%d."],
+        "failure": ["Incorrect account number, please specify one of your accounts."]
+      },
+      "context_set": {
+        "success": {"context": "asset_allocation", "account": "%s"},
+        "clarification": {"context": "account_balance_clarification", "field": "BU"}
+      }
+    }, {
       "tag": "asset_allocation",
       "patterns": ["What is my asset allocation?", "Show me my portfolio", "How much money do I have in asset portfolio "],
       "clarifications": {
