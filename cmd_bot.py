@@ -285,7 +285,7 @@ class FreetalkLike(client.OverrideClient):
         if msg.get('attachments'):
             for att in msg['attachments']:
                 content.append((Token, '\n %s - %s' % (att.get('author_link', ''), att.get('author_name', ''))))
-        if self.room_map[msg['room_id']] != "GENERAL" and msg['user'].name != 'roncool':
+        if self.room_map[msg['room_id']] != 'general' and msg['user'].name != 'roncool':
             response_message = response(msg['msg'], None, msg['user'].name)[0]
             self.api.send_msg(msg['room_id'], response_message)
         return self.room_build(msg['room_id'], msg['creation_time'], content)
