@@ -28,7 +28,7 @@ class Advisory:
         return list((set(required_fields)).difference(set(self.fields.keys())))
 
     def get_advisory(self):
-        value = do_sentiment_analysis('APPL')
+        value = do_sentiment_analysis(self.fields['stockName'] if 'stockName' in self.fields else 'AAPL')
         if value < 0:
             return [f'I would not recommend you to invest in this stock.']
         else:
